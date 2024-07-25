@@ -159,6 +159,13 @@ function updateTaskName() {
             if (!currentTaskName.includes(`[${taskID}]`)) {
                 // Prepend the task ID to the task name
                 textarea.value = `[${taskID}] ${currentTaskName}`;
+
+                // Trigger input event to save changes
+                const event = new Event('input', { bubbles: true });
+                textarea.dispatchEvent(event);
+
+                // Trigger blur event to simulate losing focus and saving changes
+                textarea.blur();
             }
         } else {
             console.log('No active textarea element found within the container');
@@ -178,7 +185,7 @@ textclips,"[]",,,,,
 variables,"[]",,,,,
 activecat,1,,,,,
 attributesoff,0,,,,,
-autoimport,0,,,,,
+autoimport,0,https://raw.githubusercontent.com/vsvn-ThanhVN/asana_tools/main/autofill-profile.txt?token=GHSAT0AAAAAACVBFOSNNH43CLCC2VVTK55UZVBYNQA,,,,
 backup,0,30,,,,
 badge,1,,,,,
 closeinfobar,1,1,,,,
