@@ -1,0 +1,198 @@
+### AUTOFILL PROFILES ###,,,,,,
+Profile ID,Name,Site,Hotkey,,,
+c1,"1. FTC","","",,,
+c2,"2. Meeting Summary","","",,,
+c3,"3. Work In Progress","","",,,
+c4,"4. Pending Client","","",,,
+c5,"5. Solution Suggested","","",,,
+c6,"6. Subtask Renamer","","",,,
+### AUTOFILL RULES ###,,,,,,
+Rule ID,Type,Name,Value,Site,Mode,Profile
+r4,4,"","// Function to insert WORK IN PROGRESS (WIP) template
+function insertWipTemplate() {
+    const targetDiv = document.activeElement;
+    if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+        targetDiv.innerHTML = '--- PENDING CUSTOMER (PC) ---<br>' +
+            '- Reason: <br>';
+    } else {
+        console.log('Target div not found or not active.');
+    }
+}
+
+// Call the function to insert the template
+insertWipTemplate();
+","",1,c4
+r3,4,"","// Function to insert WORK IN PROGRESS (WIP) template
+function insertWipTemplate() {
+    const targetDiv = document.activeElement;
+    if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+        targetDiv.innerHTML = '--- WORK IN PROGRESS (WIP) ---<br>' +
+            '- Steps done: <br>' +
+            '- Steps pending: <br>';
+    } else {
+        console.log('Target div not found or not active.');
+    }
+}
+
+// Call the function to insert the template
+insertWipTemplate();
+","",1,c3
+r2,4,"","// Function to format the current date and time
+function getFormattedDateTime() {
+    const now = new Date();
+    const optionsTime = {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    };
+    const optionsDate = {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    };
+    const timePart = now.toLocaleTimeString('en-GB', optionsTime).toLowerCase();
+    const datePart = now.toLocaleDateString('en-GB', optionsDate);
+    const timeZonePart = new Intl.DateTimeFormat('en-GB', { timeZoneName: 'short' })
+        .formatToParts(now)
+        .find(part => part.type === 'timeZoneName').value;
+    return `${timePart} ${datePart} ${timeZonePart}`;
+}
+
+// Function to insert TEAMS MEETING SUMMARY template
+function insertTeamsMeetingSummaryTemplate() {
+    const targetDiv = document.activeElement;
+    if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+        targetDiv.innerHTML = '--- MEETING SUMMARY ---<br>' +
+            `Date: ${getFormattedDateTime()} <br>` +
+            'Steps done:<br>' +
+            'Resolution: <br>';
+    } else {
+        console.log('Target div not found or not active.');
+    }
+}
+
+// Call the function to insert the template
+insertTeamsMeetingSummaryTemplate();
+","",1,c2
+r5,4,"","// Function to insert Solution Suggested template
+function insertWipTemplate() {
+    const targetDiv = document.activeElement;
+    if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+        targetDiv.innerHTML = '***************** SOLUTION SUGGESTED *****************<br>' +
+            '- Summary your solution: <br>';    
+    } else {
+        console.log('Target div not found or not active.');
+    }
+}
+
+// Call the function to insert the template
+insertWipTemplate();
+","",1,c5
+r1,4,"","// Function to format the current date and time
+function getFormattedDateTime() {
+    const now = new Date();
+    const optionsTime = {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    };
+    const optionsDate = {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    };
+    const timePart = now.toLocaleTimeString('en-GB', optionsTime).toLowerCase();
+    const datePart = now.toLocaleDateString('en-GB', optionsDate);
+    const timeZonePart = new Intl.DateTimeFormat('en-GB', { timeZoneName: 'short' })
+        .formatToParts(now)
+        .find(part => part.type === 'timeZoneName').value;
+    return `${timePart} ${datePart} ${timeZonePart}`;
+}
+
+// Check if the active element is the target div with specific aria-label and contenteditable attribute
+const targetDiv = document.activeElement;
+if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+    // Directly changing the innerHTML
+    targetDiv.innerHTML = '***************** FTC BY PHONE *****************<br>' +
+        'PFTC: <br>' +
+        `Calling Time: ${getFormattedDateTime()} <br>` +
+        'Callee’s Name: <br>' +
+        'Description: <br>';
+} else {
+    console.log('Target div not found or not active.');
+}
+","",1,c1
+r7,4,"","// Function to extract task ID from the URL
+function extractTaskID(url) {
+    const urlParts = url.split('/');
+    // Find the last part that is a number and return it
+    for (let i = urlParts.length - 1; i >= 0; i--) {
+        if (/^\d+$/.test(urlParts[i])) {
+            return urlParts[i];
+        }
+    }
+    return '';
+}
+
+// Function to update the task name
+function updateTaskName() {
+    // Get the current URL
+    const currentURL = window.location.href;
+
+    // Extract the task ID
+    const taskID = extractTaskID(currentURL);
+
+    // Select the container div with the class 'TitleInput TaskPaneTitle'
+    const container = document.querySelector('.TitleInput.TaskPaneTitle');
+
+    // Check if the container exists
+    if (container) {
+        // Find the textarea within this container
+        const textarea = container.querySelector('textarea');
+
+        // Check if the textarea exists and is the active element
+        if (textarea && document.activeElement === textarea) {
+            // Get the current task name
+            const currentTaskName = textarea.value;
+
+            // Check if the task name already contains the task ID
+            if (!currentTaskName.includes(`[${taskID}]`)) {
+                // Prepend the task ID to the task name
+                textarea.value = `[${taskID}] ${currentTaskName}`;
+            }
+        } else {
+            console.log('No active textarea element found within the container');
+        }
+    } else {
+        console.log('Container not found');
+    }
+}
+
+// Run the function to update the task name
+updateTaskName();
+","",1,c6
+### AUTOFILL OPTIONS ###,,,,,,
+advanced,"[]",,,,,
+exceptions,"[]",,,,,
+textclips,"[]",,,,,
+variables,"[]",,,,,
+activecat,1,,,,,
+attributesoff,0,,,,,
+autoimport,0,,,,,
+backup,0,30,,,,
+badge,1,,,,,
+closeinfobar,1,1,,,,
+debug,1,,,,,
+delay,0,0.5,,,,
+filtercats,0,,,,,
+fluid,1,,,,,
+hidebackup,0,,,,,
+manual,1,,,,,
+mask,1,,,,,
+menu,1,,,,,
+overwrite,1,,,,,
+sitefilters,1,2,,,,
+skiphidden,0,,,,,
+sound,0,,,,,
+vars,1,,,,,
+voice,0,1,,,,
