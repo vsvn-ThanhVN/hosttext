@@ -1,0 +1,117 @@
+### AUTOFILL PROFILES ###,,,,,,
+Profile ID,Name,Site,Hotkey,,,
+c1,"Ticket Tools Yen","","Alt + 1",,,
+### AUTOFILL RULES ###,,,,,,
+Rule ID,Type,Name,Value,Site,Mode,Profile
+r1,3,"^0$","1","",1,c1
+r8,4,"","document.querySelectorAll('.ant-form-item-label label').forEach(label => {
+  const labelText = label.textContent.toLowerCase();
+  if (labelText.includes('email')) { 
+    const input = label.closest('.ant-form-item').querySelector('input');
+    if (input) {
+      // Set initial value and dispatch input event
+      input.value = 'yenhaipham95@gmail.com';
+      const event = new Event('input', { bubbles: true });
+      input.dispatchEvent(event);
+
+      // Add focus listener to retain value if it's cleared
+      input.addEventListener('focus', () => {
+        if (input.value === '') {
+          input.value = '0966187084';
+          input.dispatchEvent(event);
+        }
+      }, { once: true }); // Only run once to avoid resetting on every click
+    }
+  }
+});
+","",1,c1
+r9,4,"","document.querySelectorAll('.ant-form-item-label label').forEach(label => {
+  const labelText = label.textContent.toLowerCase();
+  if (labelText.includes('số điện thoại') || labelText.includes('so dien thoai')) { 
+    const input = label.closest('.ant-form-item').querySelector('input');
+    if (input) {
+      // Set initial value and dispatch input event
+      input.value = '0966187084';
+      const event = new Event('input', { bubbles: true });
+      input.dispatchEvent(event);
+
+      // Add focus listener to retain value if it's cleared
+      input.addEventListener('focus', () => {
+        if (input.value === '') {
+          input.value = '0966187084';
+          input.dispatchEvent(event);
+        }
+      }, { once: true }); // Only run once to avoid resetting on every click
+    }
+  }
+});
+","",1,c1
+r10,4,"","document.querySelectorAll('.ant-form-item-label label').forEach(label => {
+  const labelText = label.textContent.toLowerCase();
+  if (labelText.includes('họ & tên') || labelText.includes('họ và tên') || labelText.includes('họ tên')) { 
+    const input = label.closest('.ant-form-item').querySelector('input');
+    if (input) {
+      // Set initial value and dispatch input event
+      input.value = 'Phạm Hải Yến';
+      const event = new Event('input', { bubbles: true });
+      input.dispatchEvent(event);
+
+      // Add focus listener to retain value if it's cleared
+      input.addEventListener('focus', () => {
+        if (input.value === '') {
+          input.value = '0966187084';
+          input.dispatchEvent(event);
+        }
+      }, { once: true }); // Only run once to avoid resetting on every click
+    }
+  }
+});
+","",1,c1
+r11,4,"","// Find the ""Momo Wallet"" element and click it
+const div = Array.from(document.querySelectorAll('div.label-title'))
+    .find(el => el.textContent.trim() === 'Momo Wallet');
+
+if (div) {
+    div.click();
+    
+    // Use a delay to ensure the selection is registered before continuing
+    setTimeout(() => {
+        const button = document.getElementById('continue-btn');
+        if (button) {
+            button.click();
+        }
+    }, 500); // Adjust the delay (500ms) as needed
+}
+","",1,c1
+r12,4,""," const button = Array.from(document.querySelectorAll('button'))
+     .find(btn => btn.textContent.includes('Tiếp tục'));
+
+ if (button) {
+     button.click();
+ }
+","",1,c1
+### AUTOFILL OPTIONS ###,,,,,,
+advanced,"[]",,,,,
+exceptions,"[]",,,,,
+textclips,"[]",,,,,
+variables,"[]",,,,,
+activecat,1,,,,,
+attributesoff,0,,,,,
+autoimport,0,,,,,
+backup,0,30,,,,
+badge,1,,,,,
+closeinfobar,1,1,,,,
+debug,1,,,,,
+delay,0,0.5,,,,
+filtercats,0,,,,,
+fluid,1,,,,,
+hidebackup,0,,,,,
+manual,1,,,,,
+mask,1,,,,,
+menu,1,,,,,
+overwrite,1,,,,,
+sitefilters,1,2,,,,
+skiphidden,0,,,,,
+sound,0,,,,,
+vars,1,,,,,
+voice,0,1,,,,
