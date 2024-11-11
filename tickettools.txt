@@ -48,7 +48,7 @@ r9,4,"","document.querySelectorAll('.ant-form-item-label label').forEach(label =
 ","",1,c1
 r10,4,"","document.querySelectorAll('.ant-form-item-label label').forEach(label => {
   const labelText = label.textContent.toLowerCase();
-  if (labelText.includes('họ & tên') || labelText.includes('họ và tên') || labelText.includes('họ tên')) { 
+  if (labelText.includes('ten') || labelText.includes('họ & tên') || labelText.includes('họ và tên') || labelText.includes('họ tên')) { 
     const input = label.closest('.ant-form-item').querySelector('input');
     if (input) {
       // Set initial value and dispatch input event
