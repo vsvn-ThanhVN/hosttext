@@ -467,270 +467,6 @@ r35,4,""," const button = Array.from(document.querySelectorAll('button'))
      button.click();
  }
 ","",1,c12
-r5,4,"","{@GET_FORMATTED_DATE_TIME_FUNCTION}
-
-const targetDiv = document.activeElement;
-if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
-    targetDiv.innerHTML = {@SS_FORM}
-} else {
-    console.log('Target div not found or not active.');
-}","",1,c5
-r18,4,"","{@SHOW_HIDE_LOADING}
-const targetDiv = document.activeElement;
-if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
-    // Extract the task ID from the current URL
-    const url = window.location.href;
-    const taskIdMatch = url.match(/\/(\d+)$/); // Match the numeric ID at the end of the URL
-    const TASK_ID = taskIdMatch ? taskIdMatch[1] : null;
-
-    if (!TASK_ID) {
-        console.error('Task ID could not be extracted from the URL.');
-    } else {
-        // Find all elements representing tags
-        const tagElements = document.querySelectorAll('.TaskTagTokenPills .TypographyPresentation');
-
-        // Extract and list the tags
-        const tags = Array.from(tagElements).map(tagElement => tagElement.textContent.trim());
-
-        // Remove other tags starting with TASK_STATUS
-        const tagsToRemove = tags.filter(tag => tag.startsWith('TASK STATUS:') && tag !== {@TASK_STATUS_SS_NAME});
-
-        console.log('Removing tags:', tagsToRemove);
-
-        tagElements.forEach((tagElement) => {
-            const tagName = tagElement.textContent.trim();
-            if (tagsToRemove.includes(tagName)) {
-                const removeButtonContainer = tagElement.closest('.PotTokenizerPill').querySelector('.TokenizerPillRemoveButton-removeButtonContainer');
-                if (removeButtonContainer) {
-                    console.log(removeButtonContainer);
-                    console.log(`Removing tag: ${tagName}`);
-                    removeButtonContainer.click();
-                }
-            }
-        });
-
-        if (tags.includes({@TASK_STATUS_SS_NAME})) {
-            console.log(`Tag {@TASK_STATUS_SS_NAME} is already added to the task.`);
-        } else {
-            showLoading(); // Show loading indicator
-            fetch(`https://app.asana.com/api/1.0/tasks/${TASK_ID}/addTag`, {
-                method: 'POST',
-                headers: {{@ASANA_REQUEST_HEADERS}},
-                body: JSON.stringify({
-                    data: {
-                    tag: '{@TASK_STATUS_SS_GID}'
-                    }
-                })
-                })
-                .then(response => response.json())
-                .then(data =>console.log('Tag added successfully:', data))
-                .catch(error => console.error('Error:', error)) 
-                .finally(() => {
-                    hideLoading(); // Hide loading indicator
-                });
-        }
-    }
-} else {
-    console.log('Target div not found or not active.');
-}","",1,c5
-r14,4,"","{@GET_FORMATTED_DATE_TIME_FUNCTION}
-
-const targetDiv = document.activeElement;
-if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
-    targetDiv.innerHTML = {@PI_FORM}
-} else {
-    console.log('Target div not found or not active.');
-}","",1,c8
-r26,4,"","{@SHOW_HIDE_LOADING}
-const targetDiv = document.activeElement;
-if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
-    // Extract the task ID from the current URL
-    const url = window.location.href;
-    const taskIdMatch = url.match(/\/(\d+)$/); // Match the numeric ID at the end of the URL
-    const TASK_ID = taskIdMatch ? taskIdMatch[1] : null;
-
-    if (!TASK_ID) {
-        console.error('Task ID could not be extracted from the URL.');
-    } else {
-        // Find all elements representing tags
-        const tagElements = document.querySelectorAll('.TaskTagTokenPills .TypographyPresentation');
-
-        // Extract and list the tags
-        const tags = Array.from(tagElements).map(tagElement => tagElement.textContent.trim());
-
-        // Remove other tags starting with TASK_STATUS
-        const tagsToRemove = tags.filter(tag => tag.startsWith('TASK STATUS:') && tag !== {@TASK_STATUS_PI_NAME});
-
-        console.log('Removing tags:', tagsToRemove);
-
-        tagElements.forEach((tagElement) => {
-            const tagName = tagElement.textContent.trim();
-            if (tagsToRemove.includes(tagName)) {
-                const removeButtonContainer = tagElement.closest('.PotTokenizerPill').querySelector('.TokenizerPillRemoveButton-removeButtonContainer');
-                if (removeButtonContainer) {
-                    console.log(removeButtonContainer);
-                    console.log(`Removing tag: ${tagName}`);
-                    removeButtonContainer.click();
-                }
-            }
-        });
-
-        if (tags.includes({@TASK_STATUS_PI_NAME})) {
-            console.log(`Tag {@TASK_STATUS_PI_NAME} is already added to the task.`);
-        } else {
-            showLoading();
-            fetch(`https://app.asana.com/api/1.0/tasks/${TASK_ID}/addTag`, {
-                method: 'POST',
-                headers: {{@ASANA_REQUEST_HEADERS}},
-                body: JSON.stringify({
-                    data: {
-                    tag: '{@TASK_STATUS_PI_GID}'
-                    }
-                })
-                })
-                .then(response => response.json())
-                .then(data =>console.log('Tag added successfully:', data))
-                .catch(error => console.error('Error:', error))
-                .finally(() => {
-                    hideLoading(); // Hide loading indicator
-                });
-        }
-    }
-} else {
-    console.log('Target div not found or not active.');
-}","",1,c8
-r4,4,"","{@GET_FORMATTED_DATE_TIME_FUNCTION}
-
-const targetDiv = document.activeElement;
-if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
-    targetDiv.innerHTML = {@PC_FORM}
-} else {
-    console.log('Target div not found or not active.');
-}","",1,c4
-r54,4,"","{@SHOW_HIDE_LOADING}
-const targetDiv = document.activeElement;
-if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
-    // Extract the task ID from the current URL
-    const url = window.location.href;
-    const taskIdMatch = url.match(/\/(\d+)$/); // Match the numeric ID at the end of the URL
-    const TASK_ID = taskIdMatch ? taskIdMatch[1] : null;
-
-    if (!TASK_ID) {
-        console.error('Task ID could not be extracted from the URL.');
-    } else {
-        // Find all elements representing tags
-        const tagElements = document.querySelectorAll('.TaskTagTokenPills .TypographyPresentation');
-
-        // Extract and list the tags
-        const tags = Array.from(tagElements).map(tagElement => tagElement.textContent.trim());
-
-        // Remove other tags starting with TASK_STATUS
-        const tagsToRemove = tags.filter(tag => tag.startsWith('TASK STATUS:') && tag !== {@TASK_STATUS_PC_NAME});
-
-        console.log('Removing tags:', tagsToRemove);
-
-        tagElements.forEach((tagElement) => {
-            const tagName = tagElement.textContent.trim();
-            if (tagsToRemove.includes(tagName)) {
-                const removeButtonContainer = tagElement.closest('.PotTokenizerPill').querySelector('.TokenizerPillRemoveButton-removeButtonContainer');
-                if (removeButtonContainer) {
-                    console.log(removeButtonContainer);
-                    console.log(`Removing tag: ${tagName}`);
-                    removeButtonContainer.click();
-                }
-            }
-        });
-
-        if (tags.includes({@TASK_STATUS_PC_NAME})) {
-            console.log(`Tag {@TASK_STATUS_PC_NAME} is already added to the task.`);
-        } else {
-            showLoading();
-            fetch(`https://app.asana.com/api/1.0/tasks/${TASK_ID}/addTag`, {
-                method: 'POST',
-                headers: {{@ASANA_REQUEST_HEADERS}},
-                body: JSON.stringify({
-                    data: {
-                    tag: '{@TASK_STATUS_PC_GID}'
-                    }
-                })
-                })
-                .then(response => response.json())
-                .then(data =>console.log('Tag added successfully:', data))
-                .catch(error => console.error('Error:', error))
-                .finally(() => {
-                    hideLoading(); // Hide loading indicator
-                });
-        }
-    }
-} else {
-    console.log('Target div not found or not active.');
-}","",1,c4
-r3,4,"","{@GET_FORMATTED_DATE_TIME_FUNCTION}
-
-const targetDiv = document.activeElement;
-if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
-    targetDiv.innerHTML = {@WIP_FORM}
-} else {
-    console.log('Target div not found or not active.');
-}","",1,c3
-r24,4,"","{@SHOW_HIDE_LOADING}
-const targetDiv = document.activeElement;
-if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
-    // Extract the task ID from the current URL
-    const url = window.location.href;
-    const taskIdMatch = url.match(/\/(\d+)$/); // Match the numeric ID at the end of the URL
-    const TASK_ID = taskIdMatch ? taskIdMatch[1] : null;
-
-    if (!TASK_ID) {
-        console.error('Task ID could not be extracted from the URL.');
-    } else {
-        // Find all elements representing tags
-        const tagElements = document.querySelectorAll('.TaskTagTokenPills .TypographyPresentation');
-
-        // Extract and list the tags
-        const tags = Array.from(tagElements).map(tagElement => tagElement.textContent.trim());
-
-        // Remove other tags starting with TASK_STATUS
-        const tagsToRemove = tags.filter(tag => tag.startsWith('TASK STATUS:') && tag !== {@TASK_STATUS_WIP_NAME});
-
-        console.log('Removing tags:', tagsToRemove);
-
-        tagElements.forEach((tagElement) => {
-            const tagName = tagElement.textContent.trim();
-            if (tagsToRemove.includes(tagName)) {
-                const removeButtonContainer = tagElement.closest('.PotTokenizerPill').querySelector('.TokenizerPillRemoveButton-removeButtonContainer');
-                if (removeButtonContainer) {
-                    console.log(removeButtonContainer);
-                    console.log(`Removing tag: ${tagName}`);
-                    removeButtonContainer.click();
-                }
-            }
-        });
-
-        if (tags.includes({@TASK_STATUS_WIP_NAME})) {
-            console.log(`Tag {@TASK_STATUS_WIP_NAME} is already added to the task.`);
-        } else {
-            showLoading();
-            fetch(`https://app.asana.com/api/1.0/tasks/${TASK_ID}/addTag`, {
-                method: 'POST',
-                headers: {{@ASANA_REQUEST_HEADERS}},
-                body: JSON.stringify({
-                    data: {
-                    tag: '{@TASK_STATUS_WIP_GID}'
-                    }
-                })
-                })
-                .then(response => response.json())
-                .then(data =>console.log('Tag added successfully:', data))
-                .catch(error => console.error('Error:', error))
-                .finally(() => {
-                    hideLoading(); // Hide loading indicator
-                });
-        }
-    }
-} else {
-    console.log('Target div not found or not active.');
-}","",1,c3
 r1,4,"","{@GET_FORMATTED_DATE_TIME_FUNCTION}
 
 // Check if the active element is the target div with specific aria-label and contenteditable attribute
@@ -747,7 +483,7 @@ const targetDiv = document.activeElement;
 if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
     // Extract the task ID from the current URL
     const url = window.location.href;
-    const taskIdMatch = url.match(/\/(\d+)$/); // Match the numeric ID at the end of the URL
+    const taskIdMatch = url.match({@TASK_ID_REGEX_PATTERN}); // Match the numeric ID at the end of the URL
     const TASK_ID = taskIdMatch ? taskIdMatch[1] : null;
 
     if (!TASK_ID) {
@@ -800,11 +536,275 @@ if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contentedit
 } else {
     console.log('Target div not found or not active.');
 }","",1,c1
+r3,4,"","{@GET_FORMATTED_DATE_TIME_FUNCTION}
+
+const targetDiv = document.activeElement;
+if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+    targetDiv.innerHTML = {@WIP_FORM}
+} else {
+    console.log('Target div not found or not active.');
+}","",1,c3
+r24,4,"","{@SHOW_HIDE_LOADING}
+const targetDiv = document.activeElement;
+if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+    // Extract the task ID from the current URL
+    const url = window.location.href;
+    const taskIdMatch = url.match({@TASK_ID_REGEX_PATTERN}); // Match the numeric ID at the end of the URL
+    const TASK_ID = taskIdMatch ? taskIdMatch[1] : null;
+
+    if (!TASK_ID) {
+        console.error('Task ID could not be extracted from the URL.');
+    } else {
+        // Find all elements representing tags
+        const tagElements = document.querySelectorAll('.TaskTagTokenPills .TypographyPresentation');
+
+        // Extract and list the tags
+        const tags = Array.from(tagElements).map(tagElement => tagElement.textContent.trim());
+
+        // Remove other tags starting with TASK_STATUS
+        const tagsToRemove = tags.filter(tag => tag.startsWith('TASK STATUS:') && tag !== {@TASK_STATUS_WIP_NAME});
+
+        console.log('Removing tags:', tagsToRemove);
+
+        tagElements.forEach((tagElement) => {
+            const tagName = tagElement.textContent.trim();
+            if (tagsToRemove.includes(tagName)) {
+                const removeButtonContainer = tagElement.closest('.PotTokenizerPill').querySelector('.TokenizerPillRemoveButton-removeButtonContainer');
+                if (removeButtonContainer) {
+                    console.log(removeButtonContainer);
+                    console.log(`Removing tag: ${tagName}`);
+                    removeButtonContainer.click();
+                }
+            }
+        });
+
+        if (tags.includes({@TASK_STATUS_WIP_NAME})) {
+            console.log(`Tag {@TASK_STATUS_WIP_NAME} is already added to the task.`);
+        } else {
+            showLoading();
+            fetch(`https://app.asana.com/api/1.0/tasks/${TASK_ID}/addTag`, {
+                method: 'POST',
+                headers: {{@ASANA_REQUEST_HEADERS}},
+                body: JSON.stringify({
+                    data: {
+                    tag: '{@TASK_STATUS_WIP_GID}'
+                    }
+                })
+                })
+                .then(response => response.json())
+                .then(data =>console.log('Tag added successfully:', data))
+                .catch(error => console.error('Error:', error))
+                .finally(() => {
+                    hideLoading(); // Hide loading indicator
+                });
+        }
+    }
+} else {
+    console.log('Target div not found or not active.');
+}","",1,c3
+r4,4,"","{@GET_FORMATTED_DATE_TIME_FUNCTION}
+
+const targetDiv = document.activeElement;
+if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+    targetDiv.innerHTML = {@PC_FORM}
+} else {
+    console.log('Target div not found or not active.');
+}","",1,c4
+r54,4,"","{@SHOW_HIDE_LOADING}
+const targetDiv = document.activeElement;
+if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+    // Extract the task ID from the current URL
+    const url = window.location.href;
+    const taskIdMatch = url.match({@TASK_ID_REGEX_PATTERN}); // Match the numeric ID at the end of the URL
+    const TASK_ID = taskIdMatch ? taskIdMatch[1] : null;
+
+    if (!TASK_ID) {
+        console.error('Task ID could not be extracted from the URL.');
+    } else {
+        // Find all elements representing tags
+        const tagElements = document.querySelectorAll('.TaskTagTokenPills .TypographyPresentation');
+
+        // Extract and list the tags
+        const tags = Array.from(tagElements).map(tagElement => tagElement.textContent.trim());
+
+        // Remove other tags starting with TASK_STATUS
+        const tagsToRemove = tags.filter(tag => tag.startsWith('TASK STATUS:') && tag !== {@TASK_STATUS_PC_NAME});
+
+        console.log('Removing tags:', tagsToRemove);
+
+        tagElements.forEach((tagElement) => {
+            const tagName = tagElement.textContent.trim();
+            if (tagsToRemove.includes(tagName)) {
+                const removeButtonContainer = tagElement.closest('.PotTokenizerPill').querySelector('.TokenizerPillRemoveButton-removeButtonContainer');
+                if (removeButtonContainer) {
+                    console.log(removeButtonContainer);
+                    console.log(`Removing tag: ${tagName}`);
+                    removeButtonContainer.click();
+                }
+            }
+        });
+
+        if (tags.includes({@TASK_STATUS_PC_NAME})) {
+            console.log(`Tag {@TASK_STATUS_PC_NAME} is already added to the task.`);
+        } else {
+            showLoading();
+            fetch(`https://app.asana.com/api/1.0/tasks/${TASK_ID}/addTag`, {
+                method: 'POST',
+                headers: {{@ASANA_REQUEST_HEADERS}},
+                body: JSON.stringify({
+                    data: {
+                    tag: '{@TASK_STATUS_PC_GID}'
+                    }
+                })
+                })
+                .then(response => response.json())
+                .then(data =>console.log('Tag added successfully:', data))
+                .catch(error => console.error('Error:', error))
+                .finally(() => {
+                    hideLoading(); // Hide loading indicator
+                });
+        }
+    }
+} else {
+    console.log('Target div not found or not active.');
+}","",1,c4
+r14,4,"","{@GET_FORMATTED_DATE_TIME_FUNCTION}
+
+const targetDiv = document.activeElement;
+if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+    targetDiv.innerHTML = {@PI_FORM}
+} else {
+    console.log('Target div not found or not active.');
+}","",1,c8
+r26,4,"","{@SHOW_HIDE_LOADING}
+const targetDiv = document.activeElement;
+if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+    // Extract the task ID from the current URL
+    const url = window.location.href;
+    const taskIdMatch = url.match({@TASK_ID_REGEX_PATTERN}); // Match the numeric ID at the end of the URL
+    const TASK_ID = taskIdMatch ? taskIdMatch[1] : null;
+
+    if (!TASK_ID) {
+        console.error('Task ID could not be extracted from the URL.');
+    } else {
+        // Find all elements representing tags
+        const tagElements = document.querySelectorAll('.TaskTagTokenPills .TypographyPresentation');
+
+        // Extract and list the tags
+        const tags = Array.from(tagElements).map(tagElement => tagElement.textContent.trim());
+
+        // Remove other tags starting with TASK_STATUS
+        const tagsToRemove = tags.filter(tag => tag.startsWith('TASK STATUS:') && tag !== {@TASK_STATUS_PI_NAME});
+
+        console.log('Removing tags:', tagsToRemove);
+
+        tagElements.forEach((tagElement) => {
+            const tagName = tagElement.textContent.trim();
+            if (tagsToRemove.includes(tagName)) {
+                const removeButtonContainer = tagElement.closest('.PotTokenizerPill').querySelector('.TokenizerPillRemoveButton-removeButtonContainer');
+                if (removeButtonContainer) {
+                    console.log(removeButtonContainer);
+                    console.log(`Removing tag: ${tagName}`);
+                    removeButtonContainer.click();
+                }
+            }
+        });
+
+        if (tags.includes({@TASK_STATUS_PI_NAME})) {
+            console.log(`Tag {@TASK_STATUS_PI_NAME} is already added to the task.`);
+        } else {
+            showLoading();
+            fetch(`https://app.asana.com/api/1.0/tasks/${TASK_ID}/addTag`, {
+                method: 'POST',
+                headers: {{@ASANA_REQUEST_HEADERS}},
+                body: JSON.stringify({
+                    data: {
+                    tag: '{@TASK_STATUS_PI_GID}'
+                    }
+                })
+                })
+                .then(response => response.json())
+                .then(data =>console.log('Tag added successfully:', data))
+                .catch(error => console.error('Error:', error))
+                .finally(() => {
+                    hideLoading(); // Hide loading indicator
+                });
+        }
+    }
+} else {
+    console.log('Target div not found or not active.');
+}","",1,c8
+r5,4,"","{@GET_FORMATTED_DATE_TIME_FUNCTION}
+
+const targetDiv = document.activeElement;
+if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+    targetDiv.innerHTML = {@SS_FORM}
+} else {
+    console.log('Target div not found or not active.');
+}","",1,c5
+r18,4,"","{@SHOW_HIDE_LOADING}
+const targetDiv = document.activeElement;
+if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+    // Extract the task ID from the current URL
+    const url = window.location.href;
+    const taskIdMatch = url.match({@TASK_ID_REGEX_PATTERN}); // Match the numeric ID at the end of the URL
+    const TASK_ID = taskIdMatch ? taskIdMatch[1] : null;
+
+    if (!TASK_ID) {
+        console.error('Task ID could not be extracted from the URL.');
+    } else {
+        // Find all elements representing tags
+        const tagElements = document.querySelectorAll('.TaskTagTokenPills .TypographyPresentation');
+
+        // Extract and list the tags
+        const tags = Array.from(tagElements).map(tagElement => tagElement.textContent.trim());
+
+        // Remove other tags starting with TASK_STATUS
+        const tagsToRemove = tags.filter(tag => tag.startsWith('TASK STATUS:') && tag !== {@TASK_STATUS_SS_NAME});
+
+        console.log('Removing tags:', tagsToRemove);
+
+        tagElements.forEach((tagElement) => {
+            const tagName = tagElement.textContent.trim();
+            if (tagsToRemove.includes(tagName)) {
+                const removeButtonContainer = tagElement.closest('.PotTokenizerPill').querySelector('.TokenizerPillRemoveButton-removeButtonContainer');
+                if (removeButtonContainer) {
+                    console.log(removeButtonContainer);
+                    console.log(`Removing tag: ${tagName}`);
+                    removeButtonContainer.click();
+                }
+            }
+        });
+
+        if (tags.includes({@TASK_STATUS_SS_NAME})) {
+            console.log(`Tag {@TASK_STATUS_SS_NAME} is already added to the task.`);
+        } else {
+            showLoading(); // Show loading indicator
+            fetch(`https://app.asana.com/api/1.0/tasks/${TASK_ID}/addTag`, {
+                method: 'POST',
+                headers: {{@ASANA_REQUEST_HEADERS}},
+                body: JSON.stringify({
+                    data: {
+                    tag: '{@TASK_STATUS_SS_GID}'
+                    }
+                })
+                })
+                .then(response => response.json())
+                .then(data =>console.log('Tag added successfully:', data))
+                .catch(error => console.error('Error:', error)) 
+                .finally(() => {
+                    hideLoading(); // Hide loading indicator
+                });
+        }
+    }
+} else {
+    console.log('Target div not found or not active.');
+}","",1,c5
 ### AUTOFILL OPTIONS ###,,,,,,
 advanced,"[]",,,,,
 exceptions,"[]",,,,,
 textclips,"[]",,,,,
-variables,"[""_ = ==================   VARIABLES ==================="",""ASANA_KEY_TOKEN = 2/1205964775943560/1208929966951500:7817ec86482c5223ea4dd1199c2e0756"",""ASANA_REQUEST_HEADERS = 'accept': 'application/json',\\n 'authorization': 'Bearer 2/1205964775943560/1208929966951500:7817ec86482c5223ea4dd1199c2e0756',\\n'content-type': 'application/json'"",""TASK_STATUS_FTC_GID = 1208927671805421"",""TASK_STATUS_FTC_NAME = 'TASK STATUS: FTC'"",""TASK_STATUS_WIP_GID = 1208900590669635"",""TASK_STATUS_WIP_NAME = 'TASK STATUS: WORK IN PROGRESS'"",""TASK_STATUS_PC_GID = 1208927802874696"",""TASK_STATUS_PC_NAME = 'TASK STATUS: PENDING CUSTOMER'"",""TASK_STATUS_PI_GID = 1208927802874698"",""TASK_STATUS_PI_NAME = 'TASK STATUS: PENDING INTERNAL'"",""TASK_STATUS_SS_GID = 1208927783091616"",""TASK_STATUS_SS_NAME = 'TASK STATUS: SOLUTION SUGGESTED'"",""_ = ================== FORMS ==================="",""FTC_FORM = `***************** FTC BY PHONE *****************<br>\\n-    Calling Time: ${getFormattedDateTime()} <br>\\n-    Callee Name: <br>\\n-    Call Description: <br>\\n***************************************************`;"",""WIP_FORM = `************** WORK IN PROGRESS **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Steps done: <br>\\n- Steps pending: <br>\\n***************************************************`"",""PC_FORM = `************** PENDING CUSTOMER **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Customer Name: <br>\\n- Issue Details: <br>\\n- Next Follow-Up: <br>\\n***************************************************`"",""PI_FORM = `************** PENDING INTERNAL **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Task Owner: <br>\\n- Blocker Description: <br>\\n- Next Steps: <br>\\n***************************************************`"",""SS_FORM = `************** SOLUTION SUGGESTED **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Suggested By: <br>\\n- Proposed Solution: <br>\\n- Expected Outcome: <br>\\n***************************************************`"",""_ = ==================   FUNCTION ==================="",""ADD_TAG_TO_TASK_URL = https://app.asana.com/api/1.0/tasks/${TASK_ID}/addTag"",""GET_FORMATTED_DATE_TIME_FUNCTION = function getFormattedDateTime() {\\n    const now = new Date();\\n    const optionsTime = {\\n        hour: '2-digit',\\n        minute: '2-digit',\\n        hour12: true\\n    };\\n    const optionsDate = {\\n        day: '2-digit',\\n        month: '2-digit',\\n        year: 'numeric'\\n    };\\n    const timePart = now.toLocaleTimeString('en-GB', optionsTime).toLowerCase();\\n    const datePart = now.toLocaleDateString('en-GB', optionsDate);\\n    const timeZonePart = new Intl.DateTimeFormat('en-GB', { timeZoneName: 'short' })\\n        .formatToParts(now)\\n        .find(part => part.type === 'timeZoneName').value;\\n    return `${timePart} ${datePart} ${timeZonePart}`;\\n}"",""SHOW_HIDE_LOADING = const showLoading = () => {\\n    const overlay = document.createElement('div');\\n    overlay.id = 'loading-overlay';\\n    overlay.style.position = 'fixed';\\n    overlay.style.top = '0';\\n    overlay.style.left = '0';\\n    overlay.style.width = '100%';\\n    overlay.style.height = '100%';\\n    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';\\n    overlay.style.display = 'flex';\\n    overlay.style.alignItems = 'center';\\n    overlay.style.justifyContent = 'center';\\n    overlay.style.zIndex = '9999';\\n    overlay.innerHTML = `<div style=\""color: white; font-size: 1.5em;\"">Loading...</div>`;\\n    const taskPaneFooter = document.querySelector('.TaskPaneFooter');\\n    if (taskPaneFooter) {\\n        const rect = taskPaneFooter.getBoundingClientRect();\\n        overlay.style.clipPath = `polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 ${rect.top}px, ${rect.left}px ${rect.top}px, ${rect.left}px ${rect.bottom}px, ${rect.right}px ${rect.bottom}px, ${rect.right}px ${rect.top}px, 0 ${rect.top}px)`;\\n    }\\n    document.body.appendChild(overlay);\\n};\\nconst hideLoading = () => {\\n    const overlay = document.getElementById('loading-overlay');\\n    if (overlay) {\\n        setTimeout(() => {\\n            overlay.remove();\\n        }, 1000);\\n    }\\n};""]",,,,,
+variables,"[""_ = ==================   VARIABLES ==================="",""ASANA_KEY_TOKEN = 2/1205964775943560/1208929966951500:7817ec86482c5223ea4dd1199c2e0756"",""ASANA_REQUEST_HEADERS = 'accept': 'application/json',\\n 'authorization': 'Bearer 2/1205964775943560/1208929966951500:7817ec86482c5223ea4dd1199c2e0756',\\n'content-type': 'application/json'"",""TASK_STATUS_FTC_GID = 1208927671805421"",""TASK_STATUS_FTC_NAME = 'TASK STATUS: FTC'"",""TASK_STATUS_WIP_GID = 1208900590669635"",""TASK_STATUS_WIP_NAME = 'TASK STATUS: WORK IN PROGRESS'"",""TASK_STATUS_PC_GID = 1208927802874696"",""TASK_STATUS_PC_NAME = 'TASK STATUS: PENDING CUSTOMER'"",""TASK_STATUS_PI_GID = 1208927802874698"",""TASK_STATUS_PI_NAME = 'TASK STATUS: PENDING INTERNAL'"",""TASK_STATUS_SS_GID = 1208927783091616"",""TASK_STATUS_SS_NAME = 'TASK STATUS: SOLUTION SUGGESTED'"",""TASK_ID_REGEX_PATTERN = /\\/(\\d+)(?=\\/[^\\d]*$|$)/"",""_ = ================== FORMS ==================="",""FTC_FORM = `***************** FTC BY PHONE *****************<br>\\n-    Calling Time: ${getFormattedDateTime()} <br>\\n-    Callee Name: <br>\\n-    Call Description: <br>\\n***************************************************`;"",""WIP_FORM = `************** WORK IN PROGRESS **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Steps done: <br>\\n- Steps pending: <br>\\n***************************************************`"",""PC_FORM = `************** PENDING CUSTOMER **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Customer Name: <br>\\n- Issue Details: <br>\\n- Next Follow-Up: <br>\\n***************************************************`"",""PI_FORM = `************** PENDING INTERNAL **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Task Owner: <br>\\n- Blocker Description: <br>\\n- Next Steps: <br>\\n***************************************************`"",""SS_FORM = `************** SOLUTION SUGGESTED **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Suggested By: <br>\\n- Proposed Solution: <br>\\n- Expected Outcome: <br>\\n***************************************************`"",""_ = ==================   FUNCTION ==================="",""ADD_TAG_TO_TASK_URL = https://app.asana.com/api/1.0/tasks/${TASK_ID}/addTag"",""GET_FORMATTED_DATE_TIME_FUNCTION = function getFormattedDateTime() {\\n    const now = new Date();\\n    const optionsTime = {\\n        hour: '2-digit',\\n        minute: '2-digit',\\n        hour12: true\\n    };\\n    const optionsDate = {\\n        day: '2-digit',\\n        month: '2-digit',\\n        year: 'numeric'\\n    };\\n    const timePart = now.toLocaleTimeString('en-GB', optionsTime).toLowerCase();\\n    const datePart = now.toLocaleDateString('en-GB', optionsDate);\\n    const timeZonePart = new Intl.DateTimeFormat('en-GB', { timeZoneName: 'short' })\\n        .formatToParts(now)\\n        .find(part => part.type === 'timeZoneName').value;\\n    return `${timePart} ${datePart} ${timeZonePart}`;\\n}"",""SHOW_HIDE_LOADING = const showLoading = () => {\\n    const overlay = document.createElement('div');\\n    overlay.id = 'loading-overlay';\\n    overlay.style.position = 'fixed';\\n    overlay.style.top = '0';\\n    overlay.style.left = '0';\\n    overlay.style.width = '100%';\\n    overlay.style.height = '100%';\\n    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';\\n    overlay.style.display = 'flex';\\n    overlay.style.alignItems = 'center';\\n    overlay.style.justifyContent = 'center';\\n    overlay.style.zIndex = '9999';\\n    overlay.innerHTML = `<div style=\""color: white; font-size: 1.5em;\"">Loading...</div>`;\\n    const taskPaneFooter = document.querySelector('.TaskPaneFooter');\\n    if (taskPaneFooter) {\\n        const rect = taskPaneFooter.getBoundingClientRect();\\n        overlay.style.clipPath = `polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 ${rect.top}px, ${rect.left}px ${rect.top}px, ${rect.left}px ${rect.bottom}px, ${rect.right}px ${rect.bottom}px, ${rect.right}px ${rect.top}px, 0 ${rect.top}px)`;\\n    }\\n    document.body.appendChild(overlay);\\n};\\nconst hideLoading = () => {\\n    const overlay = document.getElementById('loading-overlay');\\n    if (overlay) {\\n        setTimeout(() => {\\n            overlay.remove();\\n        }, 1000);\\n    }\\n};""]",,,,,
 activecat,1,,,,,
 attributesoff,0,,,,,
 autoimport,0,https://raw.githubusercontent.com/vsvn-ThanhVN/hosttext/main/autofill-profile.txt,,,,
