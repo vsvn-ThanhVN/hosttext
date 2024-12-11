@@ -8,8 +8,8 @@ c5,"5. Solution Suggested","app.asana.com","",,,
 c7,"6. Close/ Reopen","app.asana.com","",,,
 c2,"7. Meeting Summary","app.asana.com","",,,
 c6,"8. Subtask Renamer","app.asana.com","",,,
+c9,"9. Subtask To Project","","",,,
 c12,"YEN","ticketbox.vn","Shift + Alt + (",,,
-c9,"9. Subtask To Project","","Shift + Alt + ~",,,
 ### AUTOFILL RULES ###,,,,,,
 Rule ID,Type,Name,Value,Site,Mode,Profile
 r7,4,"","// Function to extract task ID from the URL
@@ -68,115 +68,6 @@ function updateTaskName() {
 // Run the function to update the task name
 updateTaskName();
 ","",1,c6
-r27,4,"","// Function to click on the desired element and save the current cursor position
-function clickOnElement() {
-  // Save the current cursor position
-  const selection = window.getSelection();
-  const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
-
-  // Use querySelector to find the element by its class and text content
-  const element = Array.from(document.querySelectorAll('.TypographyPresentation.TypographyPresentation--s'))
-                       .find(el => el.textContent.trim() === 'Show inherited fields');
-  
-  // If the element is found, click it
-  if (element) {
-    element.click();
-  } else {
-    console.error('Element not found');
-  }
-
-  // Restore the cursor position
-  if (range) {
-    selection.removeAllRanges();
-    selection.addRange(range);
-  }
-}
-
-// Call the function to perform the click
-clickOnElement();
-","",1,c7
-r8,4,"","// Check if the active element is the target div with specific aria-label and contenteditable attribute
-const targetDiv = document.activeElement;
-if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
-    // Function to click the target element and select ""Closed"" in the dropdown
-    function clickAndSelectClosed() {
-        // Save the current active element to restore focus later
-        const previousActiveElement = document.activeElement;
-
-        // Get all elements with IDs starting with #CustomPropertyRow-field
-        var elements = document.querySelectorAll('[id^=""CustomPropertyRow-field""]');
-
-        elements.forEach(element => {
-            const text = element.getAttribute('aria-label');
-            if (text && text.includes('Closed')) {
-                element.click();  // Click the parent element
-                console.log('Element clicked:', element);
-
-                setTimeout(() => {
-                    // Assuming the input box is now focused and ready for typing
-                    var activeElement = document.activeElement;
-                    if (activeElement.tagName.toLowerCase() === 'input') { 
-                        // Get the current status from the pill inside the active element
-                        const pillElement = element.querySelector('.Pill--truncated');
-                        const currentStatus = pillElement ? pillElement.textContent.trim() : '';
-                        console.log('currentStatus', currentStatus);
-
-                        // Toggle the value based on the current status
-                        activeElement.value = currentStatus === 'Closed' ? '' : 'Closed';
-
-                        var inputEvent = new Event('input', { bubbles: true });
-                        activeElement.dispatchEvent(inputEvent);
-
-                        setTimeout(() => {
-                            if (currentStatus === 'Closed') {
-                                // Dispatching 'keydown' event for Up key
-                                var keyupUpEvent = new KeyboardEvent('keydown', {
-                                    key: 'ArrowUp',
-                                    code: 'ArrowUp',
-                                    keyCode: 38,
-                                    which: 38,
-                                    bubbles: true
-                                });
-                                activeElement.dispatchEvent(keyupUpEvent);
-                            }
-
-                            // Dispatching 'keydown' event for Enter key
-                            var keydownEvent = new KeyboardEvent('keydown', {
-                                key: 'Enter',
-                                code: 'Enter',
-                                keyCode: 13,
-                                which: 13,
-                                bubbles: true
-                            });
-                            activeElement.dispatchEvent(keydownEvent);
-
-                            // Dispatching 'keyup' event for Enter key
-                            var keyupEvent = new KeyboardEvent('keyup', {
-                                key: 'Enter',
-                                code: 'Enter',
-                                keyCode: 13,
-                                which: 13,
-                                bubbles: true
-                            });
-                            activeElement.dispatchEvent(keyupEvent);
-
-                            console.log('Attempted to toggle select ""Closed"" with Enter key events dispatched');
-
-                            // Restore focus to the previous active element
-                            if (previousActiveElement) {
-                                previousActiveElement.focus();
-                            }
-                        }, 50); // Shorter timeout for Enter key events
-                    }
-                }, 50); // Shorter timeout to ensure input box is ready
-            }
-        });
-    }
-
-    // Execute the function
-    clickAndSelectClosed();
-}
-","",1,c7
 r2,4,"","// Function to format the current date and time
 function getFormattedDateTime() {
     const now = new Date();
@@ -303,83 +194,6 @@ if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contentedit
     // Execute the function
     clickAndSelectHigh();
 }","",1,c2
-r17,4,"","// Function to get the text content of the target project link
-function getTargetProjectText() {
-    const projectLink = document.querySelector('.HiddenNavigationLink.TaskAncestry-ancestorProject');
-    return projectLink ? projectLink.textContent : null;
-}
-
-// Function to check if the task project is already set
-function isTaskProjectSet(projectName) {
-    const taskProjectElement = document.querySelector('.TaskProjectTokenPill-tokenPillWrapper .TaskProjectTokenPill-name');
-    return taskProjectElement ? taskProjectElement.textContent === projectName : false;
-}
-
-// Function to press Tab + P and fill the project name
-function pressTabAndPAndFill(projectName) {
-    // Save the current active element to restore focus later
-    const previousActiveElement = document.activeElement;
-
-    // Function to dispatch a keyboard event
-    function dispatchKeyboardEvent(element, key, code, keyCode) {
-        var event = new KeyboardEvent('keydown', {
-            key: key,
-            code: code,
-            keyCode: keyCode,
-            which: keyCode,
-            bubbles: true
-        });
-        element.dispatchEvent(event);
-    }
-
-    // Dispatch Tab key event
-    dispatchKeyboardEvent(previousActiveElement, 'Tab', 'Tab', 9);
-
-    // Short timeout to ensure Tab key action is processed
-    setTimeout(() => {
-        // Dispatch P key event
-        dispatchKeyboardEvent(document.activeElement, 'p', 'KeyP', 80);
-
-        // Short timeout to ensure P key action is processed
-        setTimeout(() => {
-            const inputElement = document.querySelector('.TextInputBase.TaskProjects-typeaheadInput');
-            if (inputElement) {
-                inputElement.value = projectName;
-                var inputEvent = new Event('input', { bubbles: true });
-                inputElement.dispatchEvent(inputEvent);
-
-                setTimeout(() => {
-                    // Dispatch Enter key event
-                    dispatchKeyboardEvent(inputElement, 'Enter', 'Enter', 13);
-
-                    setTimeout(() => {
-                        // Dispatch Escape key event
-                        dispatchKeyboardEvent(inputElement, 'Escape', 'Escape', 27);
-
-                        // Restore focus to the previous active element
-                        if (previousActiveElement) {
-                            previousActiveElement.focus();
-                        }
-
-                        console.log('Project name filled and Enter/Escape keys pressed');
-                    }, 200); // Shorter timeout to ensure Enter key action is processed
-                }, 200); // Timeout to wait for the dropdown to populate
-            }
-        }, 100); // Shorter timeout to ensure P key action is processed
-    }, 100); // Shorter timeout to ensure Tab key action is processed
-}
-
-// Check if the active element is the target div with specific aria-label and contenteditable attribute
-const targetDiv = document.activeElement;
-if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
-    const projectName = getTargetProjectText();
-    if (projectName && !isTaskProjectSet(projectName)) {
-        pressTabAndPAndFill(projectName);
-    } else {
-        console.log('Task project is already set to:', projectName);
-    }
-}
-","",1,c9
 r43,3,"^0$","1","",1,c12
 r40,4,"","document.querySelectorAll('.ant-form-item-label label').forEach(label => {
   const labelText = label.textContent.toLowerCase();
@@ -800,11 +614,240 @@ if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contentedit
 } else {
     console.log('Target div not found or not active.');
 }","",1,c5
+r17,4,"","// Function to get the text content of the target project link
+// function getTargetProjectText() {
+//     const projectLink = document.querySelector('.HiddenNavigationLink.TaskAncestry-ancestorProject');
+//     return projectLink ? projectLink.textContent : null;
+// }
+
+// // Function to check if the task project is already set
+// function isTaskProjectSet(projectName) {
+//     const taskProjectElement = document.querySelector('.TaskProjectTokenPill-tokenPillWrapper .TaskProjectTokenPill-name');
+//     return taskProjectElement ? taskProjectElement.textContent === projectName : false;
+// }
+
+// // Function to press Tab + P and fill the project name
+// function pressTabAndPAndFill(projectName) {
+//     // Save the current active element to restore focus later
+//     const previousActiveElement = document.activeElement;
+
+//     // Function to dispatch a keyboard event
+//     function dispatchKeyboardEvent(element, key, code, keyCode) {
+//         var event = new KeyboardEvent('keydown', {
+//             key: key,
+//             code: code,
+//             keyCode: keyCode,
+//             which: keyCode,
+//             bubbles: true
+//         });
+//         element.dispatchEvent(event);
+//     }
+
+//     // Dispatch Tab key event
+//     dispatchKeyboardEvent(previousActiveElement, 'Tab', 'Tab', 9);
+
+//     // Short timeout to ensure Tab key action is processed
+//     setTimeout(() => {
+//         // Dispatch P key event
+//         dispatchKeyboardEvent(document.activeElement, 'p', 'KeyP', 80);
+
+//         // Short timeout to ensure P key action is processed
+//         setTimeout(() => {
+//             const inputElement = document.querySelector('.TextInputBase.TaskProjects-typeaheadInput');
+//             if (inputElement) {
+//                 inputElement.value = projectName;
+//                 var inputEvent = new Event('input', { bubbles: true });
+//                 inputElement.dispatchEvent(inputEvent);
+
+//                 setTimeout(() => {
+//                     // Dispatch Enter key event
+//                     dispatchKeyboardEvent(inputElement, 'Enter', 'Enter', 13);
+
+//                     setTimeout(() => {
+//                         // Dispatch Escape key event
+//                         dispatchKeyboardEvent(inputElement, 'Escape', 'Escape', 27);
+
+//                         // Restore focus to the previous active element
+//                         if (previousActiveElement) {
+//                             previousActiveElement.focus();
+//                         }
+
+//                         console.log('Project name filled and Enter/Escape keys pressed');
+//                     }, 200); // Shorter timeout to ensure Enter key action is processed
+//                 }, 200); // Timeout to wait for the dropdown to populate
+//             }
+//         }, 100); // Shorter timeout to ensure P key action is processed
+//     }, 100); // Shorter timeout to ensure Tab key action is processed
+// }
+
+// // Check if the active element is the target div with specific aria-label and contenteditable attribute
+// const targetDiv = document.activeElement;
+// if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+//     const projectName = getTargetProjectText();
+//     if (projectName && !isTaskProjectSet(projectName)) {
+//         pressTabAndPAndFill(projectName);
+//     } else {
+//         console.log('Task project is already set to:', projectName);
+//     }
+// }
+","",1,c9
+r55,4,"","{@SHOW_HIDE_LOADING}
+
+// Function to get the text content of the target project link
+function getTargetProjectText() {
+    const projectLink = document.querySelector('.HiddenNavigationLink.TaskAncestry-ancestorProject');
+    console.log(projectLink ? projectLink.textContent : null);
+    return projectLink ? projectLink.textContent : null;
+}
+
+// Function to check if the task project is already set
+function isTaskProjectSet(projectName) {
+    const taskProjectElement = document.querySelector('.TaskProjectTokenPill-tokenPillWrapper .TaskProjectTokenPill-name');
+    console.log(taskProjectElement ? taskProjectElement.textContent === projectName : false);
+    return taskProjectElement ? taskProjectElement.textContent === projectName : false;
+}
+
+async function addTaskToSubtasksSection(projectId, taskId) {
+    try {
+        // Step 1: Fetch sections for the project        
+        const sectionsResponse = await fetch(`https://app.asana.com/api/1.0/projects/${projectId}/sections?opt_fields=name`, {
+            method: 'GET',
+            headers: {{@ASANA_REQUEST_HEADERS}},
+        });
+
+        if (!sectionsResponse.ok) {
+            throw new Error(`Failed to fetch sections: ${sectionsResponse.statusText}`);
+        }
+
+        const sectionsData = await sectionsResponse.json();
+        console.log(""Successfully retrieved sections:"", sectionsData);
+
+        // Step 2: Find the section named ""Subtasks""
+        const subtasksSection = sectionsData.data.find(section => section.name === ""Subtasks"");
+
+        if (!subtasksSection) {
+            throw new Error(""Section named 'Subtasks' not found"");
+        }
+
+        console.log(""Found Subtasks section:"", subtasksSection);
+
+
+        // Step 3: Add a task to the Subtasks section
+        const sectionId = subtasksSection.gid;
+        const addTaskResponse = await fetch(`https://app.asana.com/api/1.0/sections/${sectionId}/addTask`, {
+            method: 'POST',
+            headers: {{@ASANA_REQUEST_HEADERS}},
+            body: 
+                JSON.stringify({
+                    data: {
+                        ""task"": taskId
+                    },
+                }),
+            });
+
+        if (!addTaskResponse.ok) {
+            throw new Error(`Failed to add task: ${addTaskResponse.statusText}`);
+        }
+
+        const taskData = await addTaskResponse.json();
+        console.log(""Task successfully added to Subtasks section:"", taskData);
+
+    } catch (error) {
+        console.error(""Error:"", error);
+    } finally {
+        hideLoading(); // Hide loading indicator
+    }
+}
+
+
+if (getTargetProjectText() !== null && !isTaskProjectSet(getTargetProjectText())) {
+    // Extract the task ID from the current URL
+    const url = window.location.href;
+
+    const taskIdMatch = url.match({@TASK_ID_REGEX_PATTERN}); // Match the numeric ID at the end of the URL
+    const taskId = taskIdMatch ? taskIdMatch[1] : null;
+
+    const projectIdMatch = url.match({@PROJECT_ID_REGEX_PATTERN}); // Match the numeric ID at the end of the URL
+    const projectId = projectIdMatch ? projectIdMatch[1] : null;
+    
+    if (taskId !== null && projectId !== null) {
+      addTaskToSubtasksSection(projectId, taskId);
+    }
+
+} else {
+    console.log('Task is not sub task');
+}","",1,c9
+r27,4,"","{@GET_FORMATTED_DATE_TIME_FUNCTION}
+
+const targetDiv = document.activeElement;
+if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+    targetDiv.innerHTML = {@CLOSED_FORM}
+} else {
+    console.log('Target div not found or not active.');
+}","",1,c7
+r8,4,"","{@SHOW_HIDE_LOADING}
+const targetDiv = document.activeElement;
+if (targetDiv && targetDiv.matches('div[aria-label=""Edit comment""][contenteditable=""true""]')) {
+    // Extract the task ID from the current URL
+    const url = window.location.href;
+    const taskIdMatch = url.match({@TASK_ID_REGEX_PATTERN}); // Match the numeric ID at the end of the URL
+    const TASK_ID = taskIdMatch ? taskIdMatch[1] : null;
+
+    if (!TASK_ID) {
+        console.error('Task ID could not be extracted from the URL.');
+    } else {
+        // Find all elements representing tags
+        const tagElements = document.querySelectorAll('.TaskTagTokenPills .TypographyPresentation');
+
+        // Extract and list the tags
+        const tags = Array.from(tagElements).map(tagElement => tagElement.textContent.trim());
+
+        // Remove other tags starting with TASK_STATUS
+        const tagsToRemove = tags.filter(tag => tag.startsWith('TASK STATUS:') && tag !== {@TASK_STATUS_CLOSED_NAME});
+
+        console.log('Removing tags:', tagsToRemove);
+
+        tagElements.forEach((tagElement) => {
+            const tagName = tagElement.textContent.trim();
+            if (tagsToRemove.includes(tagName)) {
+                const removeButtonContainer = tagElement.closest('.PotTokenizerPill').querySelector('.TokenizerPillRemoveButton-removeButtonContainer');
+                if (removeButtonContainer) {
+                    console.log(removeButtonContainer);
+                    console.log(`Removing tag: ${tagName}`);
+                    removeButtonContainer.click();
+                }
+            }
+        });
+
+        if (tags.includes({@TASK_STATUS_CLOSED_NAME})) {
+            console.log(`Tag {@TASK_STATUS_CLOSED_NAME} is already added to the task.`);
+        } else {
+            showLoading(); // Show loading indicator
+            fetch(`https://app.asana.com/api/1.0/tasks/${TASK_ID}/addTag`, {
+                method: 'POST',
+                headers: {{@ASANA_REQUEST_HEADERS}},
+                body: JSON.stringify({
+                    data: {
+                    tag: '{@TASK_STATUS_CLOSED_GID}'
+                    }
+                })
+                })
+                .then(response => response.json())
+                .then(data =>console.log('Tag added successfully:', data))
+                .catch(error => console.error('Error:', error)) 
+                .finally(() => {
+                    hideLoading(); // Hide loading indicator
+                });
+        }
+    }
+} else {
+    console.log('Target div not found or not active.');
+}","",1,c7
 ### AUTOFILL OPTIONS ###,,,,,,
 advanced,"[]",,,,,
 exceptions,"[]",,,,,
 textclips,"[]",,,,,
-variables,"[""_ = ==================   VARIABLES ==================="",""ASANA_KEY_TOKEN = 2/1205964775943560/1208929966951500:7817ec86482c5223ea4dd1199c2e0756"",""ASANA_REQUEST_HEADERS = 'accept': 'application/json',\\n 'authorization': 'Bearer 2/1205964775943560/1208929966951500:7817ec86482c5223ea4dd1199c2e0756',\\n'content-type': 'application/json'"",""TASK_STATUS_FTC_GID = 1208927671805421"",""TASK_STATUS_FTC_NAME = 'TASK STATUS: FTC'"",""TASK_STATUS_WIP_GID = 1208900590669635"",""TASK_STATUS_WIP_NAME = 'TASK STATUS: WORK IN PROGRESS'"",""TASK_STATUS_PC_GID = 1208927802874696"",""TASK_STATUS_PC_NAME = 'TASK STATUS: PENDING CUSTOMER'"",""TASK_STATUS_PI_GID = 1208927802874698"",""TASK_STATUS_PI_NAME = 'TASK STATUS: PENDING INTERNAL'"",""TASK_STATUS_SS_GID = 1208927783091616"",""TASK_STATUS_SS_NAME = 'TASK STATUS: SOLUTION SUGGESTED'"",""TASK_ID_REGEX_PATTERN = /\\/(\\d+)(?=\\/[^\\d]*$|$)/"",""_ = ================== FORMS ==================="",""FTC_FORM = `***************** FTC BY PHONE *****************<br>\\n-    Calling Time: ${getFormattedDateTime()} <br>\\n-    Callee Name: <br>\\n-    Call Description: <br>\\n***************************************************`;"",""WIP_FORM = `************** WORK IN PROGRESS **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Steps done: <br>\\n- Steps pending: <br>\\n***************************************************`"",""PC_FORM = `************** PENDING CUSTOMER **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Customer Name: <br>\\n- Issue Details: <br>\\n- Next Follow-Up: <br>\\n***************************************************`"",""PI_FORM = `************** PENDING INTERNAL **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Task Owner: <br>\\n- Blocker Description: <br>\\n- Next Steps: <br>\\n***************************************************`"",""SS_FORM = `************** SOLUTION SUGGESTED **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Suggested By: <br>\\n- Proposed Solution: <br>\\n- Expected Outcome: <br>\\n***************************************************`"",""_ = ==================   FUNCTION ==================="",""ADD_TAG_TO_TASK_URL = https://app.asana.com/api/1.0/tasks/${TASK_ID}/addTag"",""GET_FORMATTED_DATE_TIME_FUNCTION = function getFormattedDateTime() {\\n    const now = new Date();\\n    const optionsTime = {\\n        hour: '2-digit',\\n        minute: '2-digit',\\n        hour12: true\\n    };\\n    const optionsDate = {\\n        day: '2-digit',\\n        month: '2-digit',\\n        year: 'numeric'\\n    };\\n    const timePart = now.toLocaleTimeString('en-GB', optionsTime).toLowerCase();\\n    const datePart = now.toLocaleDateString('en-GB', optionsDate);\\n    const timeZonePart = new Intl.DateTimeFormat('en-GB', { timeZoneName: 'short' })\\n        .formatToParts(now)\\n        .find(part => part.type === 'timeZoneName').value;\\n    return `${timePart} ${datePart} ${timeZonePart}`;\\n}"",""SHOW_HIDE_LOADING = const showLoading = () => {\\n    const overlay = document.createElement('div');\\n    overlay.id = 'loading-overlay';\\n    overlay.style.position = 'fixed';\\n    overlay.style.top = '0';\\n    overlay.style.left = '0';\\n    overlay.style.width = '100%';\\n    overlay.style.height = '100%';\\n    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';\\n    overlay.style.display = 'flex';\\n    overlay.style.alignItems = 'center';\\n    overlay.style.justifyContent = 'center';\\n    overlay.style.zIndex = '9999';\\n    overlay.innerHTML = `<div style=\""color: white; font-size: 1.5em;\"">Loading...</div>`;\\n    const taskPaneFooter = document.querySelector('.TaskPaneFooter');\\n    if (taskPaneFooter) {\\n        const rect = taskPaneFooter.getBoundingClientRect();\\n        overlay.style.clipPath = `polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 ${rect.top}px, ${rect.left}px ${rect.top}px, ${rect.left}px ${rect.bottom}px, ${rect.right}px ${rect.bottom}px, ${rect.right}px ${rect.top}px, 0 ${rect.top}px)`;\\n    }\\n    document.body.appendChild(overlay);\\n};\\nconst hideLoading = () => {\\n    const overlay = document.getElementById('loading-overlay');\\n    if (overlay) {\\n        setTimeout(() => {\\n            overlay.remove();\\n        }, 1000);\\n    }\\n};""]",,,,,
+variables,"[""_ = ==================   VARIABLES ==================="",""ASANA_KEY_TOKEN = 2/1205964775943560/1208929966951500:7817ec86482c5223ea4dd1199c2e0756"",""ASANA_REQUEST_HEADERS = 'accept': 'application/json',\\n 'authorization': 'Bearer 2/1205964775943560/1208929966951500:7817ec86482c5223ea4dd1199c2e0756',\\n'content-type': 'application/json'"",""TASK_STATUS_FTC_GID = 1208927671805421"",""TASK_STATUS_FTC_NAME = 'TASK STATUS: FTC'"",""TASK_STATUS_WIP_GID = 1208900590669635"",""TASK_STATUS_WIP_NAME = 'TASK STATUS: WORK IN PROGRESS'"",""TASK_STATUS_PC_GID = 1208927802874696"",""TASK_STATUS_PC_NAME = 'TASK STATUS: PENDING CUSTOMER'"",""TASK_STATUS_PI_GID = 1208927802874698"",""TASK_STATUS_PI_NAME = 'TASK STATUS: PENDING INTERNAL'"",""TASK_STATUS_SS_GID = 1208927783091616"",""TASK_STATUS_SS_NAME = 'TASK STATUS: SOLUTION SUGGESTED'"",""TASK_STATUS_CLOSED_NAME = 'CASE CLOSED'"",""TASK_STATUS_CLOSED_GID = 1208927824328173"",""TASK_ID_REGEX_PATTERN = /\\/(\\d+)(?=\\/[^\\d]*$|$)/"",""PROJECT_ID_REGEX_PATTERN = /\\/0\\/(\\d+)\\//"",""_ = ================== FORMS ==================="",""FTC_FORM = `***************** FTC BY PHONE *****************<br>\\n-    Calling Time: ${getFormattedDateTime()} <br>\\n-    Callee Name: <br>\\n-    Call Description: <br>\\n***************************************************`;"",""WIP_FORM = `************** WORK IN PROGRESS **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Steps done: <br>\\n- Steps pending: <br>\\n***************************************************`"",""PC_FORM = `************** PENDING CUSTOMER **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Customer Name: <br>\\n- Issue Details: <br>\\n- Next Follow-Up: <br>\\n***************************************************`"",""PI_FORM = `************** PENDING INTERNAL **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Task Owner: <br>\\n- Blocker Description: <br>\\n- Next Steps: <br>\\n***************************************************`"",""SS_FORM = `************** SOLUTION SUGGESTED **************<br>\\n- Current time: ${getFormattedDateTime()}<br>\\n- Suggested By: <br>\\n- Proposed Solution: <br>\\n- Expected Outcome: <br>\\n***************************************************`"",""CLOSED_FORM = `************** CASE CLOSED **************<br>\\n- Current time: ${getFormattedDateTime()<br>\\n- Confirmation:}`"",""_ = ==================   FUNCTION ==================="",""ADD_TAG_TO_TASK_URL = https://app.asana.com/api/1.0/tasks/${TASK_ID}/addTag"",""GET_FORMATTED_DATE_TIME_FUNCTION = function getFormattedDateTime() {\\n    const now = new Date();\\n    const optionsTime = {\\n        hour: '2-digit',\\n        minute: '2-digit',\\n        hour12: true\\n    };\\n    const optionsDate = {\\n        day: '2-digit',\\n        month: '2-digit',\\n        year: 'numeric'\\n    };\\n    const timePart = now.toLocaleTimeString('en-GB', optionsTime).toLowerCase();\\n    const datePart = now.toLocaleDateString('en-GB', optionsDate);\\n    const timeZonePart = new Intl.DateTimeFormat('en-GB', { timeZoneName: 'short' })\\n        .formatToParts(now)\\n        .find(part => part.type === 'timeZoneName').value;\\n    return `${timePart} ${datePart} ${timeZonePart}`;\\n}"",""SHOW_HIDE_LOADING = const showLoading = () => {\\n    const overlay = document.createElement('div');\\n    overlay.id = 'loading-overlay';\\n    overlay.style.position = 'fixed';\\n    overlay.style.top = '0';\\n    overlay.style.left = '0';\\n    overlay.style.width = '100%';\\n    overlay.style.height = '100%';\\n    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';\\n    overlay.style.display = 'flex';\\n    overlay.style.alignItems = 'center';\\n    overlay.style.justifyContent = 'center';\\n    overlay.style.zIndex = '9999';\\n    overlay.innerHTML = `<div style=\""color: white; font-size: 1.5em;\"">Loading...</div>`;\\n    const taskPaneFooter = document.querySelector('.TaskPaneFooter');\\n    if (taskPaneFooter) {\\n        const rect = taskPaneFooter.getBoundingClientRect();\\n        overlay.style.clipPath = `polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 ${rect.top}px, ${rect.left}px ${rect.top}px, ${rect.left}px ${rect.bottom}px, ${rect.right}px ${rect.bottom}px, ${rect.right}px ${rect.top}px, 0 ${rect.top}px)`;\\n    }\\n    document.body.appendChild(overlay);\\n};\\nconst hideLoading = () => {\\n    const overlay = document.getElementById('loading-overlay');\\n    if (overlay) {\\n        setTimeout(() => {\\n            overlay.remove();\\n        }, 1000);\\n    }\\n};""]",,,,,
 activecat,1,,,,,
 attributesoff,0,,,,,
 autoimport,0,https://raw.githubusercontent.com/vsvn-ThanhVN/hosttext/main/autofill-profile.txt,,,,
